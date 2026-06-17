@@ -3,7 +3,7 @@ springdoc:
     path: /swagger-ui.html
 spring:
   datasource:
-    url: jdbc:mysql://thomas.proxy.rlwy.net:40415/alert_case_db?createDatabaseIfNotExist=true
+    url: jdbc:mysql://thomas.proxy.rlwy.net:40415/report?createDatabaseIfNotExist=true
     username: root
     password: root
 
