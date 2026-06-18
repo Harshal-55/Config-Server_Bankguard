@@ -6,17 +6,16 @@ spring:
 
   cloud:
     gateway:
-
       globalcors:
         add-to-simple-url-handler-mapping: true
-
         cors-configurations:
           '[/**]':
-
             allowedOrigins:
+              - "http://localhost:3000"         # Add for dev
+              - "http://localhost:5173"         # Add for dev
+              - "http://localhost:5174"         # Add for dev
               - "https://bank-gaurd-frontend.vercel.app"
               - "https://bank-gaurd-customer.vercel.app"
-
             allowedMethods:
               - GET
               - POST
@@ -24,25 +23,19 @@ spring:
               - DELETE
               - PATCH
               - OPTIONS
-
             allowedHeaders:
               - "*"
-
             exposedHeaders:
               - "*"
-
-            allowCredentials: false
+            allowCredentials: true              # ⚠️ CHANGE FROM FALSE TO TRUE
 
       server:
         webflux:
-
           discovery:
             locator:
               enabled: true
               lower-case-service-id: true
-
           routes:
-
             - id: transaction-service
               uri: lb://transactionService
               predicates:
@@ -79,7 +72,6 @@ eureka:
       defaultZone: https://eureka-server-ku09.onrender.com/eureka/
     fetch-registry: true
     register-with-eureka: true
-
   instance:
     prefer-ip-address: true
 
