@@ -5,15 +5,43 @@ spring:
     password: ${MYSQL_PASSWORD}
 
   cloud:
+
     gateway:
+
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOriginPatterns:
+              - "http://localhost:*"
+              - "https://bank-gaurd-frontend.vercel.app"
+              - "https://bank-gaurd-customer.vercel.app"
+
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - PATCH
+              - OPTIONS
+
+            allowedHeaders:
+              - "*"
+
+            exposedHeaders:
+              - "*"
+
+            allowCredentials: false
+
       server:
         webflux:
+
           discovery:
             locator:
               enabled: true
               lower-case-service-id: true
 
           routes:
+
             - id: transaction-service
               uri: lb://transactionService
               predicates:
