@@ -6,6 +6,7 @@ spring:
 
   cloud:
     gateway:
+      # ✅ CORS HANDLED HERE (at gateway level)
       globalcors:
         add-to-simple-url-handler-mapping: true
         cors-configurations:
