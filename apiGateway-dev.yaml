@@ -11,12 +11,11 @@ spring:
         cors-configurations:
           '[/**]':
             allowedOrigins:
-              allowedOrigins:
               - "http://localhost:3000"
               - "http://localhost:5173"
               - "http://localhost:5174"
               - "https://bank-gaurd-frontend.vercel.app"
-              - "https://bank-gaurd-customer-frontend.vercel.app"  # ✅ CORRECT
+              - "https://bank-gaurd-customer-frontend.vercel.app"
             allowedMethods:
               - GET
               - POST
@@ -28,44 +27,38 @@ spring:
               - "*"
             exposedHeaders:
               - "*"
-            allowCredentials: true              # ⚠️ CHANGE FROM FALSE TO TRUE
+            allowCredentials: true
 
-      server:
-        webflux:
-          discovery:
-            locator:
-              enabled: true
-              lower-case-service-id: true
-          routes:
-            - id: transaction-service
-              uri: lb://transactionService
-              predicates:
-                - Path=/api/transactions/**
+      routes:
+        - id: transaction-service
+          uri: lb://transactionService
+          predicates:
+            - Path=/api/transactions/**
 
-            - id: customer-service
-              uri: lb://transactionService
-              predicates:
-                - Path=/api/customers/**
+        - id: customer-service
+          uri: lb://transactionService
+          predicates:
+            - Path=/api/customers/**
 
-            - id: enrichment-service
-              uri: lb://enrichmentService
-              predicates:
-                - Path=/api/enrich/**
+        - id: enrichment-service
+          uri: lb://enrichmentService
+          predicates:
+            - Path=/api/enrich/**
 
-            - id: decision-engine-service
-              uri: lb://decision-engine-service
-              predicates:
-                - Path=/api/gemini/**
+        - id: decision-engine-service
+          uri: lb://decision-engine
+          predicates:
+            - Path=/api/gemini/**
 
-            - id: alertcase-service
-              uri: lb://alert-case-service
-              predicates:
-                - Path=/api/investigation/**
+        - id: alertcase-service
+          uri: lb://alert-case-service
+          predicates:
+            - Path=/api/investigation/**
 
-            - id: sar-service
-              uri: lb://sarReport
-              predicates:
-                - Path=/sar/**
+        - id: sar-service
+          uri: lb://sarReport
+          predicates:
+            - Path=/sar/**
 
 eureka:
   client:
@@ -75,6 +68,10 @@ eureka:
     register-with-eureka: true
   instance:
     prefer-ip-address: true
+
+jwt:
+  secret: BankGuardSuperSecretKeyForJWT2025ThisMustBeLongEnoughForHS256Algorithm
+  expiration: 86400000
 
 logging:
   level:
