@@ -3,9 +3,12 @@ spring:
     url: r2dbc:mysql://thomas.proxy.rlwy.net:40415/bankguard_auth
     username: root
     password: ${MYSQL_PASSWORD}
-
   cloud:
     gateway:
+      enabled: true
+      discovery:
+        locator:
+          enabled: false
       # ✅ CORS HANDLED HERE (at gateway level)
       globalcors:
         add-to-simple-url-handler-mapping: true
@@ -29,33 +32,27 @@ spring:
             exposedHeaders:
               - "*"
             allowCredentials: true
-
       routes:
         - id: transaction-service
           uri: lb://transactionService
           predicates:
             - Path=/api/transactions/**
-
         - id: customer-service
           uri: lb://transactionService
           predicates:
             - Path=/api/customers/**
-
         - id: enrichment-service
           uri: lb://enrichmentService
           predicates:
             - Path=/api/enrich/**
-
         - id: decision-engine-service
           uri: lb://decision-engine
           predicates:
             - Path=/api/gemini/**
-
         - id: alertcase-service
           uri: lb://alert-case-service
           predicates:
             - Path=/api/investigation/**
-
         - id: sar-service
           uri: lb://sarReport
           predicates:
